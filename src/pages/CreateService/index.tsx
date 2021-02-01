@@ -8,13 +8,13 @@ import Select from "../../components/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
 const CreateService: React.FC = () => {
-  const [serviceName, SetServiceName] = useState("");
-  const [description, SetDescription] = useState("");
-  const [serviceValue, SetServiceValue] = useState("");
+  const [serviceName, setServiceName] = useState("");
+  const [description, setDescription] = useState("");
+  const [serviceValue, setServiceValue] = useState("");
 
-  const [selectOpen, SetSelectOpen] = useState(false);
-  const [selectValue, SetSelectValue] = useState<string | number>(1);
-  const [serviceTypes, SetServiceTypes] = useState([
+  const [selectOpen, setSelectOpen] = useState(false);
+  const [selectValue, setSelectValue] = useState<string | number>(1);
+  const [serviceTypes, setServiceTypes] = useState([
     { id: 1, name: "teste" },
     { id: 2, name: "teste2" },
   ]);
@@ -26,14 +26,15 @@ const CreateService: React.FC = () => {
   };
 
   const handleSelectClose = () => {
-    SetSelectOpen(false);
+    setSelectOpen(false);
   };
   const handleSelectOpen = () => {
-    SetSelectOpen(true);
+    setSelectOpen(true);
+    setServiceTypes([]);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    SetSelectValue(event.target.value as number);
+    setSelectValue(event.target.value as number);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -51,7 +52,7 @@ const CreateService: React.FC = () => {
           placeholder="Nome do serviço"
           value={serviceName}
           onChange={(e) => {
-            SetServiceName(e.target.value);
+            setServiceName(e.target.value);
           }}
         />
         <Input
@@ -67,7 +68,7 @@ const CreateService: React.FC = () => {
             resize: "vertical",
           }}
           onChange={(e: any) => {
-            SetDescription(e.target.value);
+            setDescription(e.target.value);
           }}
         />
         <Input
@@ -76,7 +77,7 @@ const CreateService: React.FC = () => {
           type="number"
           value={serviceValue}
           onChange={(e) => {
-            SetServiceValue(e.target.value);
+            setServiceValue(e.target.value);
           }}
         />
         <Select
