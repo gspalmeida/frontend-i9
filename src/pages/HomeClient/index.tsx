@@ -35,7 +35,7 @@ const HomeClient: React.FC = () => {
         <FilterByDate setServices={setServices} />
         <Table services={services} />
 
-        {/* <Modal /> */}
+        <Modal />
       </Container>
     </>
   );
