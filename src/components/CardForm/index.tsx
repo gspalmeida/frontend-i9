@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Wrapper, Container, Title, Subtitle, Button } from "./styles";
 
 interface CardFormProps {
+  style?: React.CSSProperties;
   title: string;
   subtitle?: string;
   subtitleLink?: string;
@@ -13,6 +14,7 @@ interface CardFormProps {
 }
 
 const CardForm: React.FC<CardFormProps> = ({
+  style,
   title,
   subtitle,
   subtitleLink,
@@ -22,7 +24,7 @@ const CardForm: React.FC<CardFormProps> = ({
   children: inputs,
 }) => {
   return (
-    <Wrapper onSubmit={onSubmit}>
+    <Wrapper onSubmit={onSubmit} style={style}>
       <Container>
         <Title>{title}</Title>
         {subtitle && subtitleLink && subtitleLinkHref && (
