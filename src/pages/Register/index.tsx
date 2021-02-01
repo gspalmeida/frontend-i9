@@ -1,4 +1,9 @@
 import React, { FormEvent, useState } from "react";
+
+import api from '../../services/api';
+import { useHistory } from "react-router-dom";
+
+
 import CardForm from "../../components/CardForm";
 import AvatarImage from "../../assets/user.png";
 
@@ -10,41 +15,50 @@ import {
   UploadText,
   Input,
 } from "./styles";
-import DatePicker from "../../components/DatePicker";
 
 const Register: React.FC = () => {
-  const [name, SetName] = useState("");
-  const [email, SetEmail] = useState("");
-  const [password, SetPassword] = useState("");
+  const history = useHistory();
 
-  const [avatar, SetAvatar] = useState<File | string>("");
-  const [avatarUrl, SetAvatarUrl] = useState(AvatarImage);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [avatar, setAvatar] = useState<File | string>("");
+  const [avatarUrl, setAvatarUrl] = useState(AvatarImage);
 
   const handleChange = (files: FileList | null) => {
     if (files) {
-      SetAvatar(files[0]);
-      SetAvatarUrl(URL.createObjectURL(files[0]));
+      setAvatar(files[0]);
+      setAvatarUrl(URL.createObjectURL(files[0]));
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: FormEvent) => {
+      e.preventDefault();
 
-    const data = new FormData();
+      const data = new FormData();
 
-    data.append("name", name);
-    data.append("email", email);
-    data.append("password", password);
+      data.append("name", name);
+      data.append("email", email);
+      data.append("password", password);
 
-    data.append("avatar", avatar);
-  };
+      data.append("avatar", avatar);
+
+      await api.post('/providers', data);
+
+      alert("Sua conta foi criada, aguarde aprovação do administrador para realizar logIn");
+      
+
+      history.push('/');
+
+    };
 
   return (
     <CardForm
       title="Criar conta"
       subtitle="Você já tem uma conta?"
       subtitleLink="Entrar"
-      subtitleLinkHref="/entrar"
+      subtitleLinkHref="/"
       buttonTitle="Registrar"
       onSubmit={handleSubmit}
     >
@@ -63,10 +77,11 @@ const Register: React.FC = () => {
 
         <Input
           required
+          autoCapitalize="words"
           placeholder="Nome"
           value={name}
           onChange={(e) => {
-            SetName(e.target.value);
+            setName(e.target.value);
           }}
         />
 
@@ -75,15 +90,16 @@ const Register: React.FC = () => {
           placeholder="Email"
           value={email}
           onChange={(e) => {
-            SetEmail(e.target.value);
+            setEmail(e.target.value);
           }}
         />
         <Input
           required
+          type = "password"
           placeholder="Senha"
           value={password}
           onChange={(e) => {
-            SetPassword(e.target.value);
+            setPassword(e.target.value);
           }}
         />
       </InputBlock>
