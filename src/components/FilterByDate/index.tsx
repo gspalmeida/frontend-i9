@@ -50,7 +50,7 @@ const FilterByDate: React.FC<IFilterByDate> = ({ setServices }) => {
         tipo: "Limpeza2",
         descricao:
           "descricaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaao",
-        valor: "R$ 52,00",
+        valor: "52.00",
         disponivelAte: "12/02/2021",
       },
     ]);
