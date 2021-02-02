@@ -6,6 +6,7 @@ import DatePicker from "../../components/DatePicker";
 import Select from "../../components/Select";
 
 import MenuItem from "@material-ui/core/MenuItem";
+import api from "../../services/api";
 
 const CreateService: React.FC = () => {
   const [serviceName, setServiceName] = useState("");
@@ -16,7 +17,7 @@ const CreateService: React.FC = () => {
   const [selectValue, setSelectValue] = useState<string | number>(10);
   const [serviceTypes, setServiceTypes] = useState([
     { id: 1, name: "teste" },
-    { id: 2, name: "teste2" },
+    { id: 2, name: "Limpeza" },
   ]);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -36,8 +37,39 @@ const CreateService: React.FC = () => {
     setSelectValue(event.target.value as number);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    const type = serviceTypes.find(
+      (serviceType) => serviceType.id === selectValue
+    )?.name;
+    if (
+      !serviceName ||
+      !description ||
+      !serviceValue ||
+      !type ||
+      !selectedDate
+    ) {
+      window.alert("Preencha todos os dados");
+    }
+
+    const data = {
+      name: serviceName,
+      description: description,
+      value: serviceValue,
+      type: type,
+      dueDate: selectedDate.toLocaleDateString("pt-br"),
+    };
+
+    await api.post("/services", data);
+
+    /*{
+      "name": "Limpeza Simples",
+      "description": "Limpeza superficial da casa, realizada em meio periodo, ou seja, 4 horas.",
+      "value": "60,00",
+      "type": "Limpeza",
+      "dueDate": "13/08/2021"
+    }*/
   };
   return (
     <CardForm
