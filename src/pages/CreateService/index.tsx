@@ -13,7 +13,7 @@ const CreateService: React.FC = () => {
   const [serviceValue, setServiceValue] = useState("");
 
   const [selectOpen, setSelectOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState<string | number>(1);
+  const [selectValue, setSelectValue] = useState<string | number>(10);
   const [serviceTypes, setServiceTypes] = useState([
     { id: 1, name: "teste" },
     { id: 2, name: "teste2" },
@@ -30,7 +30,6 @@ const CreateService: React.FC = () => {
   };
   const handleSelectOpen = () => {
     setSelectOpen(true);
-    setServiceTypes([]);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -87,6 +86,7 @@ const CreateService: React.FC = () => {
           handleOpen={handleSelectOpen}
           handleChange={handleSelectChange}
         >
+          <MenuItem value={""}>Selecione um tipo</MenuItem>
           {serviceTypes &&
             serviceTypes.map((serviceType) => (
               <MenuItem key={serviceType.id} value={serviceType.id}>
