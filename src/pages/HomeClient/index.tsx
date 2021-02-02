@@ -17,26 +17,14 @@ interface IProductDetail {
 }
 
 const HomeClient: React.FC = () => {
-  const [services, setServices] = useState([
-    {
-      id: 1,
-      name: "Limpeza doméstica",
-      tipo: "Limpeza",
-      descricao: "Descricaa aaaaaaaaaaa aaaaaaaaaao",
-      valor: "50,00",
-      disponivelAte: "10/02/2021",
-    },
-
-    {
-      id: 2,
-      name: "Limpeza doméstica2",
-      tipo: "Limpeza2",
-      descricao:
-        "Descricaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaao",
-      valor: "52,00",
-      disponivelAte: "12/02/2021",
-    },
-  ]);
+  const [services, setServices] = useState<{
+    id: number;
+    name: string;
+    tipo: string;
+    descricao: string;
+    valor: string;
+    disponivelAte: string;
+  }[]>([{id:0, name: 'Crie um novo serviço no botão acima',tipo: '',descricao: 'Descreva com detalhes o serviço que será prestado',valor: 'xx,xx',disponivelAte: 'dd/mm/aaaa',}]);
 
   const [openModal, setOpenModal] = useState(false);
   const [modalProductDetail, setModalProductDetail] = useState<IProductDetail>(
@@ -77,13 +65,12 @@ const HomeClient: React.FC = () => {
       <Header />
       <Container>
         <Title>Meus Serviços</Title>
-        <FilterByDate setServices={setServices} />
-        <Table
+        {services && <FilterByDate setServices={setServices} />}
+        {services && <Table
           services={services}
           setOpenModal={setOpenModal}
           setModalProductDetail={setModalProductDetail}
-        />
-
+        />}
         {openModal && (
           <Modal
             productDetail={modalProductDetail}
