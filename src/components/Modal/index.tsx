@@ -24,8 +24,8 @@ interface IProductDetail {
 }
 
 const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
-  const day = productDetail.disponivelAte.split("/")[1];
-  const month = productDetail.disponivelAte.split("/")[0];
+  const day = productDetail.disponivelAte.split("/")[0];
+  const month = productDetail.disponivelAte.split("/")[1];
   const year = productDetail.disponivelAte.split("/")[2];
 
   const [serviceName, setServiceName] = useState(productDetail.name);
@@ -42,7 +42,7 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
   ]);
 
   const [selectedDate, setSelectedDate] = useState(
-    new Date(`${day}/${month}/${year}`)
+    new Date(`${month}/${day}/${year}`)
   );
 
   const handleDateChange = (date: any) => {
