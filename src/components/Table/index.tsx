@@ -76,7 +76,7 @@ const MyTable: React.FC<IMyTable> = ({
                 {service.name}
               </TableCell>
               <TableCell align="left">{service.tipo}</TableCell>
-              <TableCell width="100px" align="left">
+              <TableCell width="400px" align="left">
                 {service.descricao}
               </TableCell>
               <TableCell align="left">R$ {service.valor}</TableCell>
