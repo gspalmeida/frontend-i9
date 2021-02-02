@@ -17,8 +17,10 @@ const CreateService: React.FC = () => {
   const [serviceValue, setServiceValue] = useState("");
 
   const [selectOpen, setSelectOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState<string | number>('10');
-  const [serviceTypes, setServiceTypes] = useState<[{id:number;tipo:string;}]>();
+  const [selectValue, setSelectValue] = useState<string | number>("10");
+  const [serviceTypes, setServiceTypes] = useState<
+    [{ id: number; tipo: string }]
+  >();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -36,17 +38,14 @@ const CreateService: React.FC = () => {
   };
 
   const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectValue(event.target.value as string);   
+    setSelectValue(event.target.value as string);
   };
 
   const getServiceTypes = async () => {
-    const { data:serviceTypes } = await api.get("/servicetypes");
+    const { data: serviceTypes } = await api.get("/servicetypes");
 
     const selectData = serviceTypes.map((MyService: any) => {
-      const {
-        id,
-        service_name:serviceType,
-      } = MyService;
+      const { id, service_name: serviceType } = MyService;
       return {
         id,
         tipo: serviceType,
@@ -57,12 +56,12 @@ const CreateService: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (
       !serviceName ||
       !description ||
-      !serviceValue||
-      selectValue ==="10" ||
+      !serviceValue ||
+      selectValue === "10" ||
       !selectedDate
     ) {
       window.alert("Preencha todos os dados");
@@ -76,11 +75,12 @@ const CreateService: React.FC = () => {
     };
     try {
       await api.post("/services", data);
-      history.push('/');
-
+      history.push("/");
     } catch (error) {
-      alert('Erro ao salvar seu serviço, tente novamente.\n Caso o problema persista entre em'+
-      'contato com o administrador através do contato abaixo: \n\n Gustavo - (44) 9 9957-1618');
+      alert(
+        "Erro ao salvar seu serviço, tente novamente.\n Caso o problema persista entre em" +
+          "contato com o administrador através do contato abaixo: \n\n Gustavo - (44) 9 9957-1618"
+      );
     }
   };
 
@@ -134,8 +134,8 @@ const CreateService: React.FC = () => {
           handleOpen={handleSelectOpen}
           handleChange={handleSelectChange}
         >
-          <MenuItem  value={"10"}>Selecione um tipo</MenuItem>
-          {console.log('serviceTypes\n\n')}
+          <MenuItem value={"10"}>Selecione um tipo</MenuItem>
+          {console.log("serviceTypes\n\n")}
           {console.log(serviceTypes)}
           {serviceTypes &&
             serviceTypes.map((serviceType) => (
