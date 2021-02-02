@@ -9,6 +9,7 @@ import Paper from "@material-ui/core/Paper";
 
 import ButtonDelete from "../ButtonDelete";
 import ButtonEdit from "../ButtonEdit";
+import api from "../../services/api";
 
 interface IProductDetail {
   id: number;
@@ -28,6 +29,7 @@ interface IMyTable {
     valor: string;
     disponivelAte: string;
   }[];
+  getServices: () => Promise<void>;
 
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setModalProductDetail: React.Dispatch<React.SetStateAction<IProductDetail>>;
@@ -37,9 +39,11 @@ const MyTable: React.FC<IMyTable> = ({
   services,
   setOpenModal,
   setModalProductDetail,
+  getServices,
 }) => {
-  const deleteService = (id: number) => {
-    console.log(id);
+  const deleteService = async (id: number) => {
+    await api.delete(`/services/${id}`);
+    getServices();
   };
   const editService = (id: number) => {
     console.log(id);
