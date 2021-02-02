@@ -88,7 +88,9 @@ export const Button = styled.button`
   border: 0;
   border-radius: 10px;
 
-  background-color: #4796ff;
+  background-color: #2dab03;
+  border-radius: 15px;
+  box-shadow: 4px 4px 5px rgb(0 0 0 / 20%);
 
   color: #fff;
   font-weight: 700;

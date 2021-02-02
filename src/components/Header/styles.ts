@@ -2,12 +2,18 @@ import styled from "styled-components";
 
 import { Link } from "react-router-dom";
 
+interface IButton {
+  color: string;
+  outlined?: boolean;
+}
+
 export const Container = styled.div`
   width: 100%;
   height: 60px;
-  background-color: #4b5c6b;
+  background-color: #3e84bb;
   display: flex;
   justify-content: center;
+  box-shadow: 4px 4px 5px rgb(0 0 0 / 20%);
 `;
 
 export const Wrapper = styled.div`
@@ -16,6 +22,10 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const Brand = styled.h1`
+  color: #ebebeb;
 `;
 
 export const Left = styled.div`
@@ -50,4 +60,28 @@ export const Username = styled.span`
   margin-left: 15px;
   color: #fff;
   font-size: 15px;
+`;
+
+export const Button = styled.button<IButton>`
+  width: 200px;
+  height: 40px;
+  background-color: ${({ outlined, color }) =>
+    outlined ? "transparent" : color};
+
+  border: ${({ outlined, color }) =>
+    outlined ? `2px solid ${color}77` : "none"};
+
+  outline: none;
+
+  color: ${({ outlined, color }) => (outlined ? color : "#fff")};
+  border-radius: 3px;
+
+  border-radius: 15px;
+  box-shadow: 4px 4px 5px rgb(0 0 0 / 20%);
+
+  cursor: pointer;
+
+  margin-left: 20px;
+
+  font-size: 16px;
 `;
