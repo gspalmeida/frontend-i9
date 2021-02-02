@@ -5,16 +5,23 @@ import {
   Container,
   Wrapper,
   Left,
-  NewServiceLink,
   Right,
   Avatar,
   Username,
   Button,
+  ButtonSm,
   Brand,
 } from "./styles";
 
 const Header: React.FC = () => {
+  let parsedProvider = {avatar:'', name:'Saindo...'}
   const history = useHistory();
+  const provider = localStorage.getItem('@i9:provider');
+  console.log(provider);
+  if (provider){
+    parsedProvider = JSON.parse(provider);
+    console.log(parsedProvider);
+  }
   return (
     <Container>
       <Wrapper>
@@ -26,8 +33,11 @@ const Header: React.FC = () => {
           {/* <NewServiceLink to="/criarservico">Criar serviço</NewServiceLink> */}
         </Left>
         <Right>
-          <Avatar src={process.env.REACT_APP_SERVER_STATIC_URL} />
-          <Username>Username</Username>
+          <Avatar src={'http://localhost:3333/files/'+parsedProvider.avatar} />
+          <Username>{parsedProvider.name}</Username>
+          <ButtonSm outlined color="#ffffff" onClick={()=>{localStorage.clear(); history.push('/');window.location.reload();}}> 
+            Sair
+          </ButtonSm>
         </Right>
       </Wrapper>
     </Container>
