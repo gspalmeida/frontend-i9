@@ -61,19 +61,24 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { token, parsedProvider: provider } = response.data;
+    const { token, parsedProvider: provider, initialRoute } = response.data;
 
     console.log(response.data);
 
     localStorage.setItem('@i9:token', token);
     localStorage.setItem('@i9:provider', JSON.stringify(provider));
+    localStorage.setItem('@i9:initialRoute', JSON.stringify(initialRoute));
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setData({ token, provider });
+    window.location.reload();
   }, []);
 
   const signOut = useCallback(async () => {
-    await localStorage.multiRemove(['@CuideMe:token', '@CuideMe:provider']);
+    localStorage.removeItem('@i9:token');
+    localStorage.removeItem('@i9:provider');
+    localStorage.removeItem('@i9:initialRoute');
     api.defaults.headers.Authorization = undefined;
+    window.location.reload();
     setData({} as AuthState);
   }, []);
 

@@ -1,6 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+import { useAuth } from '../../hooks/auth';
+
 import {
   Container,
   Wrapper,
@@ -14,8 +16,10 @@ import {
 } from "./styles";
 
 const Header: React.FC = () => {
-  let parsedProvider = {avatar:'', name:'Saindo...'}
+  let parsedProvider = {avatar:'', name:'Saindo...'};
   const history = useHistory();
+  
+  const { signOut } = useAuth();
   const provider = localStorage.getItem('@i9:provider');
   console.log(provider);
   if (provider){
@@ -35,7 +39,7 @@ const Header: React.FC = () => {
         <Right>
           <Avatar src={'http://localhost:3333/files/'+parsedProvider.avatar} />
           <Username>{parsedProvider.name}</Username>
-          <ButtonSm outlined color="#ffffff" onClick={()=>{localStorage.clear(); history.push('/');window.location.reload();}}> 
+          <ButtonSm outlined color="#ffffff" onClick={() => signOut()}> 
             Sair
           </ButtonSm>
         </Right>
