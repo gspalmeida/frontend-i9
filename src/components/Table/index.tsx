@@ -10,6 +10,15 @@ import Paper from "@material-ui/core/Paper";
 import ButtonDelete from "../ButtonDelete";
 import ButtonEdit from "../ButtonEdit";
 
+interface IProductDetail {
+  id: number;
+  name: string;
+  tipo: string;
+  descricao: string;
+  valor: string;
+  disponivelAte: string;
+}
+
 interface IMyTable {
   services: {
     id: number;
@@ -19,14 +28,30 @@ interface IMyTable {
     valor: string;
     disponivelAte: string;
   }[];
+
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalProductDetail: React.Dispatch<React.SetStateAction<IProductDetail>>;
 }
 
-const MyTable: React.FC<IMyTable> = ({ services }) => {
+const MyTable: React.FC<IMyTable> = ({
+  services,
+  setOpenModal,
+  setModalProductDetail,
+}) => {
   const deleteService = (id: number) => {
     console.log(id);
   };
   const editService = (id: number) => {
     console.log(id);
+
+    const service = services.find((service) => service.id === id);
+
+    setOpenModal(true);
+    if (service) {
+      setModalProductDetail(service);
+    } else {
+      setModalProductDetail({} as IProductDetail);
+    }
   };
 
   return (
@@ -54,7 +79,7 @@ const MyTable: React.FC<IMyTable> = ({ services }) => {
               <TableCell width="100px" align="left">
                 {service.descricao}
               </TableCell>
-              <TableCell align="left">{service.valor}</TableCell>
+              <TableCell align="left">R$ {service.valor}</TableCell>
               <TableCell align="left">{service.disponivelAte}</TableCell>
               <TableCell align="right" style={{ display: "flex" }}>
                 <ButtonDelete onClick={() => deleteService(service.id)} />
