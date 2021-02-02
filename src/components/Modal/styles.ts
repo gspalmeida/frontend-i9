@@ -1,4 +1,21 @@
 import styled from "styled-components";
+import { Close } from "@styled-icons/evaicons-solid/Close";
+
+export const CloseIcon = styled(Close)`
+  width: 40px;
+  height: 40px;
+
+  position: absolute;
+
+  top: 15px;
+  right: 15px;
+
+  color: #fff;
+
+  z-index: 10000;
+
+  cursor: pointer;
+`;
 
 export const InputBlock = styled.div`
   display: flex;
