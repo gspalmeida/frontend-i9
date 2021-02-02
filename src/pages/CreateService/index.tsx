@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import CardForm from "../../components/CardForm";
 
 import { InputBlock, Input } from "./styles";
@@ -7,18 +7,18 @@ import Select from "../../components/Select";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import api from "../../services/api";
+import { useHistory } from "react-router-dom";
 
 const CreateService: React.FC = () => {
+  const history = useHistory();
+
   const [serviceName, setServiceName] = useState("");
   const [description, setDescription] = useState("");
   const [serviceValue, setServiceValue] = useState("");
 
   const [selectOpen, setSelectOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState<string | number>(10);
-  const [serviceTypes, setServiceTypes] = useState([
-    { id: 1, name: "teste" },
-    { id: 2, name: "Limpeza" },
-  ]);
+  const [selectValue, setSelectValue] = useState<string | number>('10');
+  const [serviceTypes, setServiceTypes] = useState<[{id:number;tipo:string;}]>();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -27,50 +27,66 @@ const CreateService: React.FC = () => {
   };
 
   const handleSelectClose = () => {
+    getServiceTypes();
     setSelectOpen(false);
   };
   const handleSelectOpen = () => {
+    getServiceTypes();
     setSelectOpen(true);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectValue(event.target.value as number);
+    setSelectValue(event.target.value as string);   
+  };
+
+  const getServiceTypes = async () => {
+    const { data:serviceTypes } = await api.get("/servicetypes");
+
+    const selectData = serviceTypes.map((MyService: any) => {
+      const {
+        id,
+        service_name:serviceType,
+      } = MyService;
+      return {
+        id,
+        tipo: serviceType,
+      };
+    });
+    setServiceTypes(selectData);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    const type = serviceTypes.find(
-      (serviceType) => serviceType.id === selectValue
-    )?.name;
+    
     if (
       !serviceName ||
       !description ||
-      !serviceValue ||
-      !type ||
+      !serviceValue||
+      selectValue ==="10" ||
       !selectedDate
     ) {
       window.alert("Preencha todos os dados");
     }
-
     const data = {
       name: serviceName,
       description: description,
       value: serviceValue,
-      type: type,
+      type: selectValue,
       dueDate: selectedDate.toLocaleDateString("pt-br"),
     };
+    try {
+      await api.post("/services", data);
+      history.push('/');
 
-    await api.post("/services", data);
-
-    /*{
-      "name": "Limpeza Simples",
-      "description": "Limpeza superficial da casa, realizada em meio periodo, ou seja, 4 horas.",
-      "value": "60,00",
-      "type": "Limpeza",
-      "dueDate": "13/08/2021"
-    }*/
+    } catch (error) {
+      alert('Erro ao salvar seu serviço, tente novamente.\n Caso o problema persista entre em'+
+      'contato com o administrador através do contato abaixo: \n\n Gustavo - (44) 9 9957-1618');
+    }
   };
+
+  useEffect(() => {
+    getServiceTypes();
+  }, []);
   return (
     <CardForm
       title={`Cadastrar serviço`}
@@ -118,11 +134,13 @@ const CreateService: React.FC = () => {
           handleOpen={handleSelectOpen}
           handleChange={handleSelectChange}
         >
-          <MenuItem value={""}>Selecione um tipo</MenuItem>
+          <MenuItem  value={"10"}>Selecione um tipo</MenuItem>
+          {console.log('serviceTypes\n\n')}
+          {console.log(serviceTypes)}
           {serviceTypes &&
             serviceTypes.map((serviceType) => (
-              <MenuItem key={serviceType.id} value={serviceType.id}>
-                {serviceType.name}
+              <MenuItem key={serviceType.id} value={serviceType.tipo}>
+                {serviceType.tipo}
               </MenuItem>
             ))}
         </Select>
