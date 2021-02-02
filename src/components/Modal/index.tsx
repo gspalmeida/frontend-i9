@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useEffect } from "react";
 import { useState } from "react";
 
 import DatePicker from "../DatePicker";
@@ -8,6 +8,7 @@ import { CloseIcon, InputBlock, Input } from "./styles";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import CardForm from "../CardForm";
+import api from "../../services/api";
 
 interface IModal {
   productDetail: IProductDetail;
@@ -35,11 +36,12 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
   );
 
   const [selectOpen, setSelectOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState<string | number>(1);
-  const [serviceTypes, setServiceTypes] = useState([
-    { id: 1, name: "teste" },
-    { id: 2, name: "teste2" },
-  ]);
+  const [selectValue, setSelectValue] = useState<string | number>(
+    productDetail.tipo
+  );
+  const [serviceTypes, setServiceTypes] = useState<
+    [{ id: number; tipo: string }]
+  >();
 
   const [selectedDate, setSelectedDate] = useState(
     new Date(`${month}/${day}/${year}`)
@@ -51,18 +53,58 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
 
   const handleSelectClose = () => {
     setSelectOpen(false);
+    getServiceTypes();
   };
   const handleSelectOpen = () => {
     setSelectOpen(true);
+    getServiceTypes();
   };
 
   const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectValue(event.target.value as number);
   };
+  const getServiceTypes = async () => {
+    const { data: serviceTypes } = await api.get("/servicetypes");
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+    const selectData = serviceTypes.map((MyService: any) => {
+      const { id, service_name: serviceType } = MyService;
+      return {
+        id,
+        tipo: serviceType,
+      };
+    });
+    setServiceTypes(selectData);
   };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!serviceName || !description || !serviceValue || !selectedDate) {
+      window.alert("Preencha todos os dados");
+    }
+    const data = {
+      name: serviceName,
+      description: description,
+      value: serviceValue,
+      type: selectValue,
+      dueDate: selectedDate.toLocaleDateString("pt-br"),
+    };
+    try {
+      console.log(productDetail.id);
+      await api.put(`/services/${productDetail.id}`, data);
+      setOpenModal(false);
+    } catch (error) {
+      console.log(error.message);
+      alert(
+        "Erro ao salvar seu serviço, tente novamente.\n Caso o problema persista entre em" +
+          "contato com o administrador através do contato abaixo: \n\n Gustavo - (44) 9 9957-1618"
+      );
+    }
+  };
+
+  useEffect(() => {
+    getServiceTypes();
+  }, []);
 
   if (!productDetail) {
     return null;
@@ -126,10 +168,11 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
             handleOpen={handleSelectOpen}
             handleChange={handleSelectChange}
           >
+            <MenuItem value={"10"}>Selecione um tipo</MenuItem>
             {serviceTypes &&
               serviceTypes.map((serviceType) => (
-                <MenuItem key={serviceType.id} value={serviceType.id}>
-                  {serviceType.name}
+                <MenuItem key={serviceType.id} value={serviceType.tipo}>
+                  {serviceType.tipo}
                 </MenuItem>
               ))}
           </Select>
