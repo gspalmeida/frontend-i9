@@ -85,3 +85,29 @@ export const Button = styled.button<IButton>`
 
   font-size: 16px;
 `;
+export const ButtonSm = styled.button<IButton>`
+  width: 100px;
+  background-color: ${({ outlined, color }) =>
+    outlined ? "transparent" : color};
+
+  border: ${({ outlined, color }) =>
+    outlined ? `2px solid ${color}99` : "none"};
+
+  outline: none;
+
+  color: ${({ outlined, color }) => (outlined ? color : "#fff")};
+  border-radius: 3px;
+
+  border-radius: 15px;
+  box-shadow: 4px 4px 5px rgb(0 0 0 / 20%);
+
+  cursor: pointer;
+
+  margin-left: 20px;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  padding: 4px;
+`;

@@ -89,6 +89,9 @@ const CreateService: React.FC = () => {
   }, []);
   return (
     <CardForm
+      subtitle="Não deseja mais realizar um cadastro?"
+      subtitleLink="Voltar"
+      subtitleLinkHref="/"
       title={`Cadastrar serviço`}
       buttonTitle="Salvar Cadastro"
       onSubmit={handleSubmit}
