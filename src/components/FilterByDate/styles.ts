@@ -44,6 +44,9 @@ export const Button = styled.button<IButton>`
 
   cursor: pointer;
 
+  border-radius: 15px;
+  box-shadow: 4px 4px 5px rgb(0 0 0 / 20%);
+
   margin-left: 20px;
 
   font-size: 16px;
