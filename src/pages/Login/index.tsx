@@ -22,7 +22,7 @@ const Login: React.FC = () => {
         email,
         password
       });
-      history.push('/home');
+      history.push('/services');
     } catch (error) {
       alert("Não foi possível realizar  o LogIn, entre em contato com o administrador: \n\n Gustavo - (44) 9 9957-1618")
     }
@@ -47,6 +47,7 @@ const Login: React.FC = () => {
         />
         <Input
           required
+          type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => {
