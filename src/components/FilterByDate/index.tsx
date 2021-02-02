@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import api from "../../services/api";
+import moment from 'moment';
 import DatePicker from "../DatePicker";
 
 import {
@@ -37,23 +39,89 @@ const FilterByDate: React.FC<IFilterByDate> = ({ setServices }) => {
     setEndDate(date);
   };
 
-  const removeFilters = () => {
+  const removeFilters = async () => {
     setStartDate(null);
     setEndDate(null);
+    const { data } = await api.get("/services");
+
+      const servicesData = data.map((MyService: any) => {
+        const {
+          id,
+          name,
+          service: { service_name },
+          description,
+          value,
+          due_date,
+        } = MyService;
+        return {
+          id,
+          name,
+          tipo: service_name,
+          descricao: description,
+          valor: value,
+          disponivelAte: due_date,
+        };
+      });
+
+      setServices(servicesData);
+    
   };
-  const filterByDate = () => {
-    console.log("filtrado!");
-    setServices([
-      {
-        id: 2,
-        name: "Limpeza doméstica2",
-        tipo: "Limpeza2",
-        descricao:
-          "descricaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaao",
-        valor: "52.00",
-        disponivelAte: "12/02/2021",
-      },
-    ]);
+  const filterByDate = async () => {
+    if (startDate!==null && endDate !== null){
+      const parsedStartDate = moment(startDate).format('DD/MM/YYYY');
+      const parsedEndDate = moment(endDate).format('DD/MM/YYYY');
+      console.log('filter %s %s', parsedStartDate, parsedEndDate);
+      try {
+        const {data} = await api.get('/services', {params:{startDate: parsedStartDate, endDate:parsedEndDate}});
+        const filteredServices = data.map((MyService: any) => {
+          const {
+            id,
+            name,
+            service: { service_name },
+            description,
+            value,
+            due_date,
+          } = MyService;
+          return {
+            id,
+            name,
+            tipo: service_name,
+            descricao: description,
+            valor: value,
+            disponivelAte: due_date,
+          };
+        });
+        
+        setServices(filteredServices);
+        console.log("filtrado!");
+      } catch (error) {
+        alert("Erro ao filtrar serviços");
+      }
+    }else{
+      alert("Informe a data de início e fim do filtro.");
+      const { data } = await api.get("/services");
+
+      const servicesData = data.map((MyService: any) => {
+        const {
+          id,
+          name,
+          service: { service_name },
+          description,
+          value,
+          due_date,
+        } = MyService;
+        return {
+          id,
+          name,
+          tipo: service_name,
+          descricao: description,
+          valor: value,
+          disponivelAte: due_date,
+        };
+      });
+
+      setServices(servicesData);
+    } 
   };
 
   return (
