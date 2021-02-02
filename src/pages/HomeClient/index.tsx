@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import FilterByDate from "../../components/FilterByDate";
-import Modal from "../../components/FilterByDate/Modal";
+import Modal from "../../components/Modal";
 import Table from "../../components/Table";
 import Header from "../../components/Header";
 
 import { Container, Title } from "./styles";
+
+interface IProductDetail {
+  id: number;
+  name: string;
+  tipo: string;
+  descricao: string;
+  valor: string;
+  disponivelAte: string;
+}
 
 const HomeClient: React.FC = () => {
   const [services, setServices] = useState([
@@ -13,7 +22,7 @@ const HomeClient: React.FC = () => {
       name: "Limpeza doméstica",
       tipo: "Limpeza",
       descricao: "Descricaa aaaaaaaaaaa aaaaaaaaaao",
-      valor: "R$ 50,00",
+      valor: "50,00",
       disponivelAte: "10/02/2021",
     },
 
@@ -23,19 +32,34 @@ const HomeClient: React.FC = () => {
       tipo: "Limpeza2",
       descricao:
         "Descricaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaao",
-      valor: "R$ 52,00",
+      valor: "52,00",
       disponivelAte: "12/02/2021",
     },
   ]);
+
+  const [openModal, setOpenModal] = useState(false);
+  const [modalProductDetail, setModalProductDetail] = useState<IProductDetail>(
+    {} as IProductDetail
+  );
+
   return (
     <>
       <Header />
       <Container>
         <Title>Meus Serviços</Title>
         <FilterByDate setServices={setServices} />
-        <Table services={services} />
+        <Table
+          services={services}
+          setOpenModal={setOpenModal}
+          setModalProductDetail={setModalProductDetail}
+        />
 
-        {/* <Modal /> */}
+        {openModal && (
+          <Modal
+            productDetail={modalProductDetail}
+            setOpenModal={setOpenModal}
+          />
+        )}
       </Container>
     </>
   );
