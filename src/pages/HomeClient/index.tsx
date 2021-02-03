@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FilterByDate from "../../components/FilterByDate";
-import Modal from "../../components/Modal";
-import Table from "../../components/Table";
+import ServicesModal from "../../components/ServicesModal";
+import ServicesRenderer from "../../components/ServicesRenderer";
 import Header from "../../components/Header";
 
 import { Container, Title } from "./styles";
@@ -81,16 +81,16 @@ const HomeClient: React.FC = () => {
         <Title>Meus Serviços</Title>
         {services && <FilterByDate setServices={setServices} />}
         {services && (
-          <Table
+          <ServicesRenderer
             services={services}
-            setOpenModal={setOpenModal}
+            setOpenServicesModal={setOpenModal}
             setModalServiceDetail={setModalServiceDetail}
             getServices={getServices}
           />
         )}
         {openModal && (
-          <Modal
-            productDetail={modalServiceDetail}
+          <ServicesModal
+            serviceDetail={modalServiceDetail}
             setOpenModal={setOpenModal}
           />
         )}

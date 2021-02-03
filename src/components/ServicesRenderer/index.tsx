@@ -30,14 +30,13 @@ interface IMyTable {
     disponivelAte: string;
   }[];
   getServices: () => Promise<void>;
-
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenServicesModal: React.Dispatch<React.SetStateAction<boolean>>;
   setModalServiceDetail: React.Dispatch<React.SetStateAction<ServiceDetail>>;
 }
 
 const MyTable: React.FC<IMyTable> = ({
   services,
-  setOpenModal,
+  setOpenServicesModal,
   setModalServiceDetail,
   getServices,
 }) => {
@@ -50,7 +49,7 @@ const MyTable: React.FC<IMyTable> = ({
 
     const service = services.find((service) => service.id === id);
 
-    setOpenModal(true);
+    setOpenServicesModal(true);
     if (service) {
       setModalServiceDetail(service);
     } else {

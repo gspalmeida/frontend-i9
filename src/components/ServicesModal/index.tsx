@@ -11,11 +11,11 @@ import CardForm from "../CardForm";
 import api from "../../services/api";
 
 interface IModal {
-  productDetail: IProductDetail;
+  serviceDetail: InterfaceServiceDetail;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface IProductDetail {
+interface InterfaceServiceDetail {
   id: number;
   name: string;
   tipo: string;
@@ -24,20 +24,20 @@ interface IProductDetail {
   disponivelAte: string;
 }
 
-const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
-  const day = productDetail.disponivelAte.split("/")[0];
-  const month = productDetail.disponivelAte.split("/")[1];
-  const year = productDetail.disponivelAte.split("/")[2];
+const ServicesModal: React.FC<IModal> = ({ serviceDetail, setOpenModal }) => {
+  const day = serviceDetail.disponivelAte.split("/")[0];
+  const month = serviceDetail.disponivelAte.split("/")[1];
+  const year = serviceDetail.disponivelAte.split("/")[2];
 
-  const [serviceName, setServiceName] = useState(productDetail.name);
-  const [description, setDescription] = useState(productDetail.descricao);
+  const [serviceName, setServiceName] = useState(serviceDetail.name);
+  const [description, setDescription] = useState(serviceDetail.descricao);
   const [serviceValue, setServiceValue] = useState(
-    productDetail.valor.replace(",", ".")
+    serviceDetail.valor.replace(",", ".")
   );
 
   const [selectOpen, setSelectOpen] = useState(false);
   const [selectValue, setSelectValue] = useState<string | number>(
-    productDetail.tipo
+    serviceDetail.tipo
   );
   const [serviceTypes, setServiceTypes] = useState<
     [{ id: number; tipo: string }]
@@ -90,8 +90,8 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
       dueDate: selectedDate.toLocaleDateString("pt-br"),
     };
     try {
-      console.log(productDetail.id);
-      await api.put(`/services/${productDetail.id}`, data);
+      console.log(serviceDetail.id);
+      await api.put(`/services/${serviceDetail.id}`, data);
       setOpenModal(false);
     } catch (error) {
       console.log(error.message);
@@ -106,7 +106,7 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
     getServiceTypes();
   }, []);
 
-  if (!productDetail) {
+  if (!serviceDetail) {
     return null;
   }
   return (
@@ -188,4 +188,4 @@ const Modal: React.FC<IModal> = ({ productDetail, setOpenModal }) => {
   );
 };
 
-export default Modal;
+export default ServicesModal;
