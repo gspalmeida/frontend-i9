@@ -38,6 +38,7 @@ export const Wrapper = styled.form`
 export const Title = styled.h1`
   margin-bottom: 10px;
   font-size: 35px;
+  text-align: center;
 `;
 
 export const Subtitle = styled.span`
