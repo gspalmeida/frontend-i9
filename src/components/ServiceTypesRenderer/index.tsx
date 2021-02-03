@@ -33,7 +33,7 @@ const ServiceTypesRenderer: React.FC<IMyTable> = ({
   getServiceTypes,
 }) => {
   const deleteService = async (id: number) => {
-    await api.delete(`/serviceTypes/${id}`);
+    await api.delete(`/admins/servicetypes/${id}`);
     getServiceTypes();
   };
   const editService = (id: number) => {

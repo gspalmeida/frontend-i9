@@ -91,11 +91,13 @@ const HomeAdmin: React.FC = () => {
   };
 
   useEffect(() => {
-    getServiceTypes();
+    if (!openServiceTypesModal){
+      getServiceTypes();
+    }
     if (!openServicesModal) {
       getServices();
     }
-  }, [openServicesModal]);
+  }, [openServicesModal,openServiceTypesModal]);
 
   return (
     <>
@@ -115,7 +117,7 @@ const HomeAdmin: React.FC = () => {
         {openServiceTypesModal && (
           <ServiceTypesModal
             serviceTypesDetail={modalServiceTypeDetail}
-            setOpenServicesModal={setOpenServicesModal}
+            setOpenServiceTypesModal={setOpenServiceTypesModal}
           />
         )}
         <Title>Todos os Serviços</Title>

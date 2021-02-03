@@ -9,7 +9,7 @@ import api from "../../services/api";
 
 interface IModal {
   serviceTypesDetail: IServiceTypesProps;
-  setOpenServicesModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenServiceTypesModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface IServiceTypesProps {
@@ -17,7 +17,7 @@ interface IServiceTypesProps {
   name: string;
 }
 
-const ServiceTypesModal: React.FC<IModal> = ({ serviceTypesDetail, setOpenServicesModal }) => {
+const ServiceTypesModal: React.FC<IModal> = ({ serviceTypesDetail, setOpenServiceTypesModal }) => {
 
   const id = serviceTypesDetail.id;
   const [serviceTypeName, setServiceTypeName] = useState(serviceTypesDetail.name);
@@ -33,9 +33,8 @@ const ServiceTypesModal: React.FC<IModal> = ({ serviceTypesDetail, setOpenServic
     };
     try {
       await api.put(`/admins/servicetypes/${serviceTypesDetail.id}`, data);
-      setOpenServicesModal(false);
+      setOpenServiceTypesModal(false);
     } catch (error) {
-      console.log(error.message);
       alert(
         "Erro ao salvar seu serviço, tente novamente.\n\nCaso o problema persista entre em" +
         " contato com o administrador através do contato abaixo: \n\n Gustavo - (44) 9 9957-1618"
@@ -48,11 +47,7 @@ const ServiceTypesModal: React.FC<IModal> = ({ serviceTypesDetail, setOpenServic
   }
   return (
     <>
-      <CloseIcon
-        onClick={() => {
-          setOpenServicesModal(false);
-        }}
-      />
+      <CloseIcon onClick={() => {setOpenServiceTypesModal(false);}}/>
       <CardForm
         title={`Editar Tipo de Serviço`}
         buttonTitle="Aplicar Alterações"
