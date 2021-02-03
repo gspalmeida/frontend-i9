@@ -64,7 +64,8 @@ const CreateService: React.FC = () => {
       selectValue === "10" ||
       !selectedDate
     ) {
-      window.alert("Preencha todos os dados");
+      window.alert("Preencha todos os dados campos do formulário");
+      return;
     }
     const data = {
       name: serviceName,
