@@ -52,21 +52,24 @@ const AuthProvider: React.FC = ({ children }) => {
       const provider = localStorage.getItem('@i9:provider');
       const admin = localStorage.getItem('@i9:admin');
 
-      if (token && provider) {
+      if (provider !== 'undefined' && provider && token) {
         setData({
           token: token,
           provider: JSON.parse(provider),
         });
         api.defaults.headers.Authorization = `Bearer ${token}`;
+        setLoading(false);
       }
-      if (token && admin) {
+      if (admin !== 'undefined' && admin && token) {
+        console.log(admin);
+        console.log(token);
         setData({
           token: token,
           provider: JSON.parse(admin),
         });
         api.defaults.headers.Authorization = `Bearer ${token}`;
+        setLoading(false);
       }
-
       setLoading(false);
     }
     loadStoragedData();
