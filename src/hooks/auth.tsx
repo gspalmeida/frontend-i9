@@ -11,14 +11,14 @@ interface ProviderProps {
   id: string;
   name: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }
 
 interface AdminProps {
   id: string;
   name: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }
 
 interface AuthState {
@@ -78,11 +78,11 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { token, parsedProvider: provider, parsedAdmin: admin } = response.data;
-
+    const { token, provider, admin } = response.data;
+    
     localStorage.setItem('@i9:token', token);
     localStorage.setItem('@i9:provider', JSON.stringify(provider));
-    localStorage.setItem('@i9:admin', admin);
+    localStorage.setItem('@i9:admin', JSON.stringify(admin));
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setData({ token, provider, admin });
   }, []);

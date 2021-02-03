@@ -15,17 +15,25 @@ import {
   Brand,
 } from "./styles";
 
+interface ParsedUserProps {
+  avatar: string|undefined;
+  name: string;
+}
+
+
 const Header: React.FC = () => {
-  let parsedProvider = {avatar:'', name:'Saindo...'};
+  let parsedUser: ParsedUserProps = {avatar:'', name:'Saindo...'};
   const history = useHistory();
   
-  const { signOut } = useAuth();
-  const provider = localStorage.getItem('@i9:provider');
-  console.log(provider);
-  if (provider){
-    parsedProvider = JSON.parse(provider);
-    console.log(parsedProvider);
+  const { signOut, admin, provider } = useAuth();
+
+  if (admin){
+    parsedUser = {avatar: admin.avatar, name: admin.name};
   }
+  if(provider){
+    parsedUser = {avatar: provider.avatar, name: provider.name};
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -37,8 +45,8 @@ const Header: React.FC = () => {
           {/* <NewServiceLink to="/criarservico">Criar serviço</NewServiceLink> */}
         </Left>
         <Right>
-          <Avatar src={'http://localhost:3333/files/'+parsedProvider.avatar} />
-          <Username>{parsedProvider.name}</Username>
+          <Avatar src={'http://localhost:3333/files/'+parsedUser.avatar} />
+          <Username>{parsedUser.name}</Username>
           <ButtonSm outlined color="#ffffff" onClick={() => {
             history.push('/');
             signOut()}}> 
