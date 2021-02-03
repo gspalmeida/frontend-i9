@@ -29,11 +29,11 @@ const HomeAdmin: React.FC = () => {
   >([
     {
       id: 0,
-      name: "Crie um novo serviço no botão acima",
-      tipo: "",
-      descricao: "Descreva com detalhes o serviço que será prestado",
-      valor: "xx,xx",
-      disponivelAte: "dd/mm/aaaa",
+      name: "Nenhum serviço cadastrado",
+      tipo: "-",
+      descricao: "-",
+      valor: "-",
+      disponivelAte: "-",
     },
   ]);
 
@@ -43,7 +43,7 @@ const HomeAdmin: React.FC = () => {
   );
 
   const getServices = async () => {
-    const { data } = await api.get("/services");
+    const { data } = await api.get("/admin/services");
 
     const servicesData = data.map((MyService: any) => {
       const {
@@ -63,8 +63,9 @@ const HomeAdmin: React.FC = () => {
         disponivelAte: due_date,
       };
     });
-
-    setServices(servicesData);
+    if (servicesData.name){
+      setServices(servicesData);
+    }
   };
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const HomeAdmin: React.FC = () => {
     <>
       <Header />
       <Container>
-        <Title>Meus Serviços</Title>
+        <Title>Todos os Serviços</Title>
         {services && <FilterByDate setServices={setServices} />}
         {services && (
           <Table

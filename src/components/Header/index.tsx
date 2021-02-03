@@ -39,10 +39,15 @@ const Header: React.FC = () => {
       <Wrapper>
         <Left>
           <Brand>SetNinjas</Brand>
-          <Button color="#2dab03" onClick={()=>{history.push('/criarservico')}}>
-          Criar Serviço
-        </Button>
-          {/* <NewServiceLink to="/criarservico">Criar serviço</NewServiceLink> */}
+          {provider ? 
+            <Button color="#2dab03" onClick={()=>{history.push('/criarservico')}}>
+              Criar Serviço
+            </Button>
+          :
+            <Button color="#9c9f13" onClick={()=>{history.push('/createServiceType')}}>
+              Criar Tipo de Serviço
+            </Button>
+          }
         </Left>
         <Right>
           <Avatar src={'http://localhost:3333/files/'+parsedUser.avatar} />
