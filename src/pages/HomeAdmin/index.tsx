@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import FilterByDate from "../../components/FilterByDate";
-import Modal from "../../components/Modal";
-import Table from "../../components/Table";
+import ServicesModal from "../../components/ServicesModal";
+import ServiceTypesModal from "../../components/ServiceTypesModal";
+import ServicesRenderer from "../../components/ServicesRenderer";
+import ServiceTypesRenderer from "../../components/ServiceTypesRenderer";
 import Header from "../../components/Header";
 
 import { Container, Title } from "./styles";
@@ -14,6 +16,10 @@ interface ServiceDetail {
   descricao: string;
   valor: string;
   disponivelAte: string;
+}
+interface ServiceTypeDetail {
+  id: number;
+  name: string;
 }
 
 const HomeAdmin: React.FC = () => {
@@ -36,11 +42,27 @@ const HomeAdmin: React.FC = () => {
       disponivelAte: "-",
     },
   ]);
-
-  const [openModal, setOpenModal] = useState(false);
+  const [openServicesModal, setOpenServicesModal] = useState(false);
   const [modalServiceDetail, setModalServiceDetail] = useState<ServiceDetail>(
     {} as ServiceDetail
   );
+  const [serviceTypes, setServiceTypes] = useState<[{ id: number; name: string }]>();
+  const [openServiceTypesModal, setOpenServiceTypesModal] = useState(false);
+  const [modalServiceTypeDetail, setModalServiceTypeDetail] = useState<ServiceTypeDetail>(
+    {} as ServiceTypeDetail
+  );
+
+  const getServiceTypes = async () => {
+    const { data: serviceTypes } = await api.get("/servicetypes");
+    const parsedTypes = serviceTypes.map((MyService: any) => {
+      const { id, service_name: name } = MyService;
+      return {
+        id,
+        name
+      };
+    });
+    setServiceTypes(parsedTypes);
+  };
 
   const getServices = async () => {
     const { data } = await api.get("/admin/services");
@@ -69,29 +91,47 @@ const HomeAdmin: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!openModal) {
+    getServiceTypes();
+    if (!openServicesModal) {
       getServices();
     }
-  }, [openModal]);
+  }, [openServicesModal]);
 
   return (
     <>
       <Header />
       <Container>
+        {serviceTypes && (
+          <>
+            <Title>Tipos de Serviços</Title>
+            <ServiceTypesRenderer
+              serviceTypes={serviceTypes}
+              setOpenServiceTypesModal={setOpenServiceTypesModal}
+              setModalServiceTypesDetail={setModalServiceTypeDetail}
+              getServiceTypes={getServiceTypes}
+            />
+          </>
+        )}
+        {openServiceTypesModal && (
+          <ServiceTypesModal
+            serviceTypesDetail={modalServiceTypeDetail}
+            setOpenServicesModal={setOpenServicesModal}
+          />
+        )}
         <Title>Todos os Serviços</Title>
         {services && <FilterByDate setServices={setServices} />}
         {services && (
-          <Table
+          <ServicesRenderer
             services={services}
-            setOpenModal={setOpenModal}
+            setOpenServicesModal={setOpenServicesModal}
             setModalServiceDetail={setModalServiceDetail}
             getServices={getServices}
           />
         )}
-        {openModal && (
-          <Modal
-            productDetail={modalServiceDetail}
-            setOpenModal={setOpenModal}
+        {openServicesModal && (
+          <ServicesModal
+            serviceDetail={modalServiceDetail}
+            setOpenModal={setOpenServicesModal}
           />
         )}
       </Container>

@@ -23,7 +23,7 @@ const CreateService: React.FC = () => {
       serviceName: serviceTypeName,
     };
     try {
-      await api.post("/servicetypes", data);
+      await api.post("/admins/servicetypes", data);
       history.push("/");
     } catch (error) {
       alert(
