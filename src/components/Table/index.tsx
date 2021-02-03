@@ -11,7 +11,7 @@ import ButtonDelete from "../ButtonDelete";
 import ButtonEdit from "../ButtonEdit";
 import api from "../../services/api";
 
-interface IProductDetail {
+interface ServiceDetail {
   id: number;
   name: string;
   tipo: string;
@@ -32,13 +32,13 @@ interface IMyTable {
   getServices: () => Promise<void>;
 
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setModalProductDetail: React.Dispatch<React.SetStateAction<IProductDetail>>;
+  setModalServiceDetail: React.Dispatch<React.SetStateAction<ServiceDetail>>;
 }
 
 const MyTable: React.FC<IMyTable> = ({
   services,
   setOpenModal,
-  setModalProductDetail,
+  setModalServiceDetail,
   getServices,
 }) => {
   const deleteService = async (id: number) => {
@@ -52,9 +52,9 @@ const MyTable: React.FC<IMyTable> = ({
 
     setOpenModal(true);
     if (service) {
-      setModalProductDetail(service);
+      setModalServiceDetail(service);
     } else {
-      setModalProductDetail({} as IProductDetail);
+      setModalServiceDetail({} as ServiceDetail);
     }
   };
 

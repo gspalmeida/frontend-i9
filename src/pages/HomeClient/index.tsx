@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import { Container, Title } from "./styles";
 import api from "../../services/api";
 
-interface IProductDetail {
+interface ServiceDetail {
   id: number;
   name: string;
   tipo: string;
@@ -38,8 +38,8 @@ const HomeClient: React.FC = () => {
   ]);
 
   const [openModal, setOpenModal] = useState(false);
-  const [modalProductDetail, setModalProductDetail] = useState<IProductDetail>(
-    {} as IProductDetail
+  const [modalServiceDetail, setModalServiceDetail] = useState<ServiceDetail>(
+    {} as ServiceDetail
   );
 
   const getServices = async () => {
@@ -83,13 +83,13 @@ const HomeClient: React.FC = () => {
           <Table
             services={services}
             setOpenModal={setOpenModal}
-            setModalProductDetail={setModalProductDetail}
+            setModalServiceDetail={setModalServiceDetail}
             getServices={getServices}
           />
         )}
         {openModal && (
           <Modal
-            productDetail={modalProductDetail}
+            productDetail={modalServiceDetail}
             setOpenModal={setOpenModal}
           />
         )}
