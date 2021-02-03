@@ -22,7 +22,13 @@ const Login: React.FC = () => {
         email,
         password
       });
-      history.push('/services');
+      const initialRoute = localStorage.getItem('@i9:initialRoute');
+      console.log(initialRoute);
+      if (initialRoute && initialRoute!==undefined){
+        history.push(initialRoute);
+      }else{
+        history.push('/services');
+      }
     } catch (error) {
       alert("Não foi possível realizar  o LogIn, entre em contato com o administrador: \n\n Gustavo - (44) 9 9957-1618")
     }
