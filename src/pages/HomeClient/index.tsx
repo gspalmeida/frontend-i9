@@ -63,7 +63,7 @@ const HomeClient: React.FC = () => {
         disponivelAte: due_date,
       };
     });
-    if (servicesData.name){
+    if (!!data[0]){
       setServices(servicesData);
     }
   };
