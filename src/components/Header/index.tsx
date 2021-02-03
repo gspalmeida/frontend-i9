@@ -39,7 +39,9 @@ const Header: React.FC = () => {
         <Right>
           <Avatar src={'http://localhost:3333/files/'+parsedProvider.avatar} />
           <Username>{parsedProvider.name}</Username>
-          <ButtonSm outlined color="#ffffff" onClick={() => signOut()}> 
+          <ButtonSm outlined color="#ffffff" onClick={() => {
+            history.push('/');
+            signOut()}}> 
             Sair
           </ButtonSm>
         </Right>
