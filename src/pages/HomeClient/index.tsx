@@ -84,6 +84,7 @@ const HomeClient: React.FC = () => {
             services={services}
             setOpenModal={setOpenModal}
             setModalProductDetail={setModalProductDetail}
+            getServices={getServices}
           />
         )}
         {openModal && (
