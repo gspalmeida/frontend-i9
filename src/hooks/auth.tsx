@@ -49,8 +49,8 @@ const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const token = localStorage.getItem('@i9:token');
-      const provider = localStorage.getItem('@i9:provider');
       const admin = localStorage.getItem('@i9:admin');
+      const provider = localStorage.getItem('@i9:provider');
 
       if (provider !== 'undefined' && provider && token) {
         setData({
@@ -61,8 +61,6 @@ const AuthProvider: React.FC = ({ children }) => {
         setLoading(false);
       }
       if (admin !== 'undefined' && admin && token) {
-        console.log(admin);
-        console.log(token);
         setData({
           token: token,
           provider: JSON.parse(admin),

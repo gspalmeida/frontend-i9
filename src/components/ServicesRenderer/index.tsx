@@ -62,14 +62,14 @@ const MyTable: React.FC<IMyTable> = ({
       <Table style={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Nome</TableCell>
-            <TableCell align="left">Tipo</TableCell>
+            <TableCell><p style={{fontWeight:600, fontSize:15}}>Nome</p></TableCell>
+            <TableCell align="left"><p style={{fontWeight:600, fontSize:15}}>Tipo</p></TableCell>
             <TableCell width="100px" align="left">
-              Descrição
+            <p style={{fontWeight:600, fontSize:15}}>Descrição</p>
             </TableCell>
-            <TableCell align="left">Valor</TableCell>
-            <TableCell align="left">Disponivel até</TableCell>
-            <TableCell align="right">Ações</TableCell>
+            <TableCell align="left"><p style={{fontWeight:600, fontSize:15}}>Valor</p></TableCell>
+            <TableCell align="left"><p style={{fontWeight:600, fontSize:15}}>Disponivel até</p></TableCell>
+            <TableCell align="right"><p style={{fontWeight:600, fontSize:15}}>Ações</p></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

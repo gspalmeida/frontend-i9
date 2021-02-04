@@ -25,13 +25,20 @@ const Header: React.FC = () => {
   let parsedUser: ParsedUserProps = {avatar:'', name:'Saindo...'};
   const history = useHistory();
   
-  const { signOut, admin, provider } = useAuth();
+  const { signOut } = useAuth();
+  const admin = localStorage.getItem('@i9:admin');
+  const provider = localStorage.getItem('@i9:provider');
+  console.log(!!admin);
+  console.log(!!provider);
+  
 
-  if (admin){
-    parsedUser = {avatar: admin.avatar, name: admin.name};
+  if (admin !== 'undefined' && admin ){
+    const parsedAdmin = JSON.parse(admin);
+    parsedUser = {avatar: parsedAdmin.avatar, name: parsedAdmin.name};
   }
-  if(provider){
-    parsedUser = {avatar: provider.avatar, name: provider.name};
+  if(provider !== 'undefined' && provider){
+    const parsedProvider = JSON.parse(provider);
+    parsedUser = {avatar: parsedProvider.avatar, name: parsedProvider.name};
   }
 
   return (
@@ -39,11 +46,12 @@ const Header: React.FC = () => {
       <Wrapper>
         <Left>
           <Brand>SetNinjas</Brand>
-          {provider ? 
+          {provider!=='undefined' && 
             <Button color="#2dab03" onClick={()=>{history.push('/criarservico')}}>
               Criar Serviço
             </Button>
-          :
+          }
+          {admin!=='undefined' &&  
             <Button color="#9c9f13" onClick={()=>{history.push('/createServiceType')}}>
               Criar Tipo de Serviço
             </Button>
