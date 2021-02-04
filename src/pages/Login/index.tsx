@@ -24,8 +24,11 @@ const Login: React.FC = () => {
       });
       history.push('/');
     } catch (error) {
-      console.log(error);
-      alert("Não foi possível realizar  o LogIn, entre em contato com o administrador: \n\n Gustavo - (44) 9 9957-1618")
+      if(error.response.status===403){
+        alert("O administrador ainda não aprovou a sua conta, aguarde ou entre em contato através do contato: \n\nGustavo - (44) 9 9957-1618")
+      }else{
+        alert("Não foi possível realizar  o LogIn, entre em contato com o administrador: \n\n Gustavo - (44) 9 9957-1618")
+      }
     }
   };
   return (

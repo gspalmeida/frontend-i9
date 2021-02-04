@@ -154,7 +154,7 @@ const HomeAdmin: React.FC = () => {
             setOpenModal={setOpenServicesModal}
           />
         )}
-        {providers &&<Title>Provedores de Serviço à Aprovar</Title>}
+        {providers &&<Title>Provedores de Serviço sem Acesso</Title>}
         {providers && (
           <ProvidersRenderer
             providers={providers}
