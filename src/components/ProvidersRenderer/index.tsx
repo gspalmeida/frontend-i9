@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import ButtonApprove from "../ButtonApprove";
-import ButtonDelete from "../ButtonDelete";
+import ButtonDisaprove from "../ButtonDisaprove";
 import api from "../../services/api";
 
 interface IMyTable {
@@ -60,7 +60,7 @@ const MyTable: React.FC<IMyTable> = ({
                 {provider.allowAccess === false && "Aguardando Aprovação"}
               </TableCell>
               <TableCell align="right" style={{ display: "flex" }}>
-                <ButtonDelete onClick={() => deleteProvider(provider.id)} />
+                <ButtonDisaprove onClick={() => deleteProvider(provider.id)} />
                 <ButtonApprove onClick={() => approveProvider(provider.id)} />
               </TableCell>
             </TableRow>
