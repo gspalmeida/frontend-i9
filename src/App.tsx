@@ -1,8 +1,8 @@
 import React from "react";
+import GlobalStyle from "./styles/GlobalStyle";
 import AppProvider from './hooks';
 
 import Routes from "./routes";
-import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
   return (
