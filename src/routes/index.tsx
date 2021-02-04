@@ -13,10 +13,10 @@ const Routes: React.FC = () => {
       <div style={{flex:1, backgroundColor:'red'}}><p>Carregando</p></div>
     );
   }
-  if (admin){
+  if (!!admin?.name){
     return <AdminRoutes />
   }
-  if (provider){
+  if (!!provider?.name){
     return <AppRoutes />
   }else{
     return <AuthRoutes />

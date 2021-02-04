@@ -63,7 +63,7 @@ const AuthProvider: React.FC = ({ children }) => {
       if (admin !== 'undefined' && admin && token) {
         setData({
           token: token,
-          provider: JSON.parse(admin),
+          admin: JSON.parse(admin),
         });
         api.defaults.headers.Authorization = `Bearer ${token}`;
         setLoading(false);
