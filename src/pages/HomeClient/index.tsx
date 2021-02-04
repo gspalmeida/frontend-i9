@@ -17,26 +17,7 @@ interface ServiceDetail {
 }
 
 const HomeClient: React.FC = () => {
-  const [services, setServices] = useState<
-    {
-      id: number;
-      name: string;
-      tipo: string;
-      descricao: string;
-      valor: string;
-      disponivelAte: string;
-    }[]
-  >([
-    {
-      id: 0,
-      name: "Crie um novo serviço no botão acima",
-      tipo: "",
-      descricao: "Descreva com detalhes o serviço que será prestado",
-      valor: "xx,xx",
-      disponivelAte: "dd/mm/aaaa",
-    },
-  ]);
-
+  const [services, setServices] = useState<ServiceDetail[]>([{} as ServiceDetail]);
   const [openModal, setOpenModal] = useState(false);
   const [modalServiceDetail, setModalServiceDetail] = useState<ServiceDetail>(
     {} as ServiceDetail
@@ -63,9 +44,7 @@ const HomeClient: React.FC = () => {
         disponivelAte: due_date,
       };
     });
-    if (!!data[0]){
-      setServices(servicesData);
-    }
+    setServices(servicesData);
   };
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import FilterByDate from "../../components/FilterByDate";
 import ServicesModal from "../../components/ServicesModal";
-import ServiceTypesModal from "../../components/ServiceTypesModal";
 import ServicesRenderer from "../../components/ServicesRenderer";
+import ServiceTypesModal from "../../components/ServiceTypesModal";
 import ServiceTypesRenderer from "../../components/ServiceTypesRenderer";
+import ProvidersRenderer from "../../components/ProvidersRenderer";
 import Header from "../../components/Header";
 
 import { Container, Title } from "./styles";
@@ -17,35 +18,27 @@ interface ServiceDetail {
   valor: string;
   disponivelAte: string;
 }
+interface ProviderDetail {
+  id: string;
+  avatar: string;
+  name: string;
+  email: string;
+  allowAccess: boolean;
+  avaliated: string;
+}
 interface ServiceTypeDetail {
   id: number;
   name: string;
 }
 
 const HomeAdmin: React.FC = () => {
-  const [services, setServices] = useState<
-    {
-      id: number;
-      name: string;
-      tipo: string;
-      descricao: string;
-      valor: string;
-      disponivelAte: string;
-    }[]
-  >([
-    {
-      id: 0,
-      name: "Nenhum serviço cadastrado",
-      tipo: "-",
-      descricao: "-",
-      valor: "-",
-      disponivelAte: "-",
-    },
-  ]);
+  const [services, setServices] = useState<ServiceDetail[]>([{} as ServiceDetail]);
   const [openServicesModal, setOpenServicesModal] = useState(false);
   const [modalServiceDetail, setModalServiceDetail] = useState<ServiceDetail>(
     {} as ServiceDetail
   );
+  const [providers, setProviders] = useState<ProviderDetail[]>([{} as ProviderDetail]);
+
   const [serviceTypes, setServiceTypes] = useState<[{ id: number; name: string }]>();
   const [openServiceTypesModal, setOpenServiceTypesModal] = useState(false);
   const [modalServiceTypeDetail, setModalServiceTypeDetail] = useState<ServiceTypeDetail>(
@@ -65,7 +58,7 @@ const HomeAdmin: React.FC = () => {
   };
 
   const getServices = async () => {
-    const { data } = await api.get("/admin/services");
+    const { data } = await api.get("/admins/services/all");
 
     const servicesData = data.map((MyService: any) => {
       const {
@@ -85,9 +78,33 @@ const HomeAdmin: React.FC = () => {
         disponivelAte: due_date,
       };
     });
-    if (servicesData.name){
-      setServices(servicesData);
-    }
+    
+    setServices(servicesData);
+  };
+
+  const getProviders = async () => {
+    const { data } = await api.get("/admins/providers/");
+
+    const servicesData = data.map((MyService: any) => {
+      const {
+        id ,
+        avatar,
+        name,
+        email,
+        allow_access,
+        avaliated
+      } = MyService;
+      return {
+        id,
+        avatar,
+        name,
+        email,
+        allowAccess: allow_access,
+        avaliated,
+      };
+    });
+    
+    setProviders(servicesData);
   };
 
   useEffect(() => {
@@ -97,6 +114,7 @@ const HomeAdmin: React.FC = () => {
     if (!openServicesModal) {
       getServices();
     }
+    getProviders();
   }, [openServicesModal,openServiceTypesModal]);
 
   return (
@@ -120,7 +138,7 @@ const HomeAdmin: React.FC = () => {
             setOpenServiceTypesModal={setOpenServiceTypesModal}
           />
         )}
-        <Title>Todos os Serviços</Title>
+        {services &&<Title>Todos os Serviços</Title>}
         {services && <FilterByDate setServices={setServices} />}
         {services && (
           <ServicesRenderer
@@ -136,6 +154,14 @@ const HomeAdmin: React.FC = () => {
             setOpenModal={setOpenServicesModal}
           />
         )}
+        {providers &&<Title>Provedores de Serviço à Aprovar</Title>}
+        {providers && (
+          <ProvidersRenderer
+            providers={providers}
+            getProviders={getProviders}
+          />
+        )}
+
       </Container>
     </>
   );
