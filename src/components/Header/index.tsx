@@ -58,7 +58,7 @@ const Header: React.FC = () => {
           }
         </Left>
         <Right>
-          <Avatar src={'https://provai9.cuideme.care:1919/files/'+parsedUser.avatar} />
+          <Avatar src={'https://provai9.cuideme.care/files/'+parsedUser.avatar} />
           <Username>{parsedUser.name}</Username>
           <ButtonSm outlined color="#ffffff" onClick={() => {
             history.push('/');
