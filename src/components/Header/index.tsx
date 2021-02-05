@@ -58,7 +58,7 @@ const Header: React.FC = () => {
           }
         </Left>
         <Right>
-          <Avatar src={'http://localhost:3333/files/'+parsedUser.avatar} />
+          <Avatar src={'https://18.229.244.224:1919/files/'+parsedUser.avatar} />
           <Username>{parsedUser.name}</Username>
           <ButtonSm outlined color="#ffffff" onClick={() => {
             history.push('/');
